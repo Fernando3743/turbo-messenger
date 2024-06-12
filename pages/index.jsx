@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react';
+import Welcome from '../components/welcome'
 
 export default function Home() {
-  const [data, setData] = useState(null)
+
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    fetch('/api/clientes')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data)
-      })
-  }, [])
+    if (status === 'unauthenticated') {
+      console.log("Status: ",status);
+      signIn();
+    }
+  }, [status]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <div>
-      <h1>TurboMessenger</h1>
-      <div>{data && data.map(item => <p>{Object.values(item).join(', ')}</p>)}</div>
+      <Welcome/>
     </div>
   );
 }

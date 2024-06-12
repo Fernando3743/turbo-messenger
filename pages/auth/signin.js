@@ -7,7 +7,7 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signIn('credentials', { email, password, callbackUrl: '/dashboard' });
+    await signIn('credentials', { email, password, callbackUrl: '/' });
   };
 
   return (

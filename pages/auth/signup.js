@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from "next/router"
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -8,6 +9,7 @@ export default function SignUp() {
   const [direccion, setDireccion] = useState('');
   const [telefono, setTelefono] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,10 +18,29 @@ export default function SignUp() {
       return;
     }
 
-    // You should replace this with your sign-up logic, such as calling an API
-    console.log('Sign-Up:', { email, password, login, direccion, telefono });
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, login, direccion, telefono }),
+      });
 
-    // Redirect or show success message
+      console.log(response)
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        setError(responseData.error)
+        return;
+      }
+
+      router.push('/auth/signin')
+      console.log('Sign up successful');
+    } catch (error) {
+      setError('Sign up failed');
+    }
   };
 
   return (
