@@ -1,10 +1,12 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const WelcomePage = () => {
+  const { data: session } = useSession();
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-4xl bg-white p-8 rounded-lg shadow-md w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Welcome to Turbo Messenger</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Welcome {session.user.login} to Turbo Messenger</h1>
         <p className="text-gray-700 mb-8">
           Turbo Messenger is a messaging application designed for courier companies to efficiently manage and track packages
           from pickup to delivery. Whether your messengers use cars, motorcycles, or trucks, Turbo Messenger provides the tools

@@ -2,7 +2,7 @@ import {Client} from 'pg';
 
 const connectionData = {
   user: 'postgres',
-  host: '192.168.1.7',
+  host: '192.168.1.6',
   database: 'turbo_messenger',
   password: 'postgres',
   port: '5432'

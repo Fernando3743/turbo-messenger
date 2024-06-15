@@ -17,7 +17,7 @@ export default NextAuth({
 
         try {
           const query = `
-            SELECT id_cliente, login, email
+            SELECT id_usuario, login, email
             FROM usuario
             WHERE email = $1 AND contrasena = $2
           `;
@@ -25,8 +25,8 @@ export default NextAuth({
 
           if (result.rows.length > 0) {
             // If credentials are valid, return user data
-            const { id_cliente, name } = result.rows[0];
-            return { id: id_cliente, name, email };
+            const { id_usuario, login, email } = result.rows[0];
+            return { id: id_usuario, login, email };
           } else {
             // If credentials are invalid, return null
             console.error('credentials are invalid')
@@ -42,5 +42,23 @@ export default NextAuth({
   ],
   pages: {
     signIn: '/auth/signin',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      // Include user information in the JWT token
+      if (user) {
+        token.id = user.id;
+        token.login = user.login;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Include user information in the session
+      if (token) {
+        session.user.id = token.id;
+        session.user.login = token.login;
+      }
+      return session;
+    },
   },
 });
