@@ -8,7 +8,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between w-full">
             <div className="flex-shrink-0">
               <Link href="/">
-              <span className="text-white font-bold text-xl mr-4">My App</span>
+              <span className="text-white font-bold text-xl mr-4">Turbo Messenger</span>
               </Link>
             </div>
             <div className="hidden md:block">
