@@ -61,6 +61,9 @@ const Navbar = () => {
           <Link href="/auth/signup" legacyBehavior>
             <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Sign Up</a>
           </Link>
+          <Link href="/new-service" legacyBehavior>
+            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">New Service</a>
+          </Link>
         </div>
       </div>
     </nav>
