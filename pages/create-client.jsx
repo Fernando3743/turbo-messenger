@@ -1,59 +1,101 @@
 import { useState } from 'react';
-import { useRouter } from "next/router"
 
-export default function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [login, setLogin] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [error, setError] = useState('');
-  const router = useRouter();
+export default function CreateClient() {
+  const [formData, setFormData] = useState({
+    identificacion: '',
+    nombre: '',
+    direccion: '',
+    ciudad: '',
+    email: '',
+    telefono: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
+    
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch('/api/cliente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, login, direccion, telefono }),
+        body: JSON.stringify(formData),
       });
 
-      console.log(response)
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        setError(responseData.error)
-        return;
+      if (response.ok) {
+        const newClient = await response.json();
+        console.log('Cliente creado:', newClient);
+        // Reset form or provide feedback to user
+        setFormData({
+          identificacion: '',
+          nombre: '',
+          direccion: '',
+          ciudad: '',
+          email: '',
+          telefono: ''
+        });
+      } else {
+        const { error } = await response.json();
+        console.error('Error al crear el cliente:', error);
       }
-
-      router.push('/auth/signin')
-      console.log('Sign up successful');
     } catch (error) {
-      setError('Sign up failed');
+      console.error('Error inesperado:', error);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Sign Up</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Crear Cliente</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
               type="text"
-              placeholder="Login"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              name="identificacion"
+              placeholder="Identificación"
+              value={formData.identificacion}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="direccion"
+              placeholder="Dirección"
+              value={formData.direccion}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="ciudad"
+              placeholder="Ciudad"
+              value={formData.ciudad}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -61,58 +103,30 @@ export default function SignUp() {
           <div className="mb-4">
             <input
               type="email"
+              name="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <textarea
-              placeholder="Direccion"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <input
               type="tel"
-              placeholder="Telefono"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
+              name="telefono"
+              placeholder="Teléfono"
+              value={formData.telefono}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
           >
-            Sign Up
+            Crear Cliente
           </button>
         </form>
       </div>
