@@ -1,4 +1,4 @@
-import client from '../../postgres/db.js';
+import client from '../../../postgres/db.js';
 
 export default function handler(req, res) {
   if (req.method === 'POST') {
