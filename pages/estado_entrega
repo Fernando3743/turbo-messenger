@@ -1,0 +1,62 @@
+import { useState } from 'react';
+
+const EstadoEntregaForm = () => {
+  const [codigoServicio, setCodigoServicio] = useState('');
+  const [estado, setEstado] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/actualizar-estado', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ codigoServicio, estado }),
+      });
+      if (response.ok) {
+        alert('Estado actualizado correctamente');
+        // Limpiar formulario o resetear estado
+        setCodigoServicio('');
+        setEstado('');
+      } else {
+        throw new Error('Error al actualizar el estado');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Hubo un error al actualizar el estado');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Actualizar Estado de Entrega</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Código de Servicio:
+          <input
+            type="number"
+            value={codigoServicio}
+            onChange={(e) => setCodigoServicio(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Estado:
+          <select
+            value={estado}
+            onChange={(e) => setEstado(e.target.value)}
+            required
+          >
+            <option value="">Seleccione el estado</option>
+            <option value="Pedido Entregado">Pedido Entregado</option>
+            <option value="Pedido sin Entregar">Pedido sin Entregar</option>
+          </select>
+        </label>
+        <button type="submit">Actualizar Estado</button>
+      </form>
+    </div>
+  );
+};
+
+export default EstadoEntregaForm;
