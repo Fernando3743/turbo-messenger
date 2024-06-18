@@ -1,0 +1,122 @@
+import { useState } from 'react';
+
+export default function CreateMensajero() {
+  const [formData, setFormData] = useState({
+    identificacion: '',
+    nombre: '',
+    direccion: '',
+    email: '',
+    telefono_contacto: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/carrier', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const newMensajero = await response.json();
+        console.log('Mensajero creado:', newMensajero);
+        // Reset form or provide feedback to user
+        setFormData({
+          identificacion: '',
+          nombre: '',
+          direccion: '',
+          email: '',
+          telefono_contacto: ''
+        });
+      } else {
+        const { error } = await response.json();
+        console.error('Error al crear el mensajero:', error);
+      }
+    } catch (error) {
+      console.error('Error inesperado:', error);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Crear Mensajero</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="identificacion"
+              placeholder="Identificación"
+              value={formData.identificacion}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="direccion"
+              placeholder="Dirección"
+              value={formData.direccion}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <input
+              type="tel"
+              name="telefono_contacto"
+              placeholder="Teléfono de Contacto"
+              value={formData.telefono_contacto}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Crear Mensajero
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
