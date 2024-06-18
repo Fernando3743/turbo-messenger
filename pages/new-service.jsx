@@ -22,8 +22,8 @@ export default function SolicitaServicio() {
         ciudad,
         descripcion,
         tipoTransporte,
-        numeroPaquetes,
-        estado: 'pendiente' // Default value, adjust if necessary
+        numeroPaquetes, 
+        estado: estado || 'pendiente' // Default value, adjust if necessary
       };
     
       try {

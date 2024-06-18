@@ -67,9 +67,16 @@ const Navbar = () => {
           <Link href="/create-client" legacyBehavior>
             <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">New Client</a>
           </Link>
+          <Link href="/list-clients" legacyBehavior>
+            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">List Clients</a>
+          </Link>
           <Link href="/estado_servicio" legacyBehavior>
             <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Service Status</a>
           </Link>
+          <Link href="/list-services" legacyBehavior>
+            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">List Services</a>
+          </Link>
+        
         </div>
       </div>
     </nav>

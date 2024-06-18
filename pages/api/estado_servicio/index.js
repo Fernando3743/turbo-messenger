@@ -8,6 +8,8 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { codigoServicio, estado, fechaHora } = req.body;
 
+    console.log("REQUEST BODY: ",req.body)
+
     try {
       // Insertar el estado del servicio en la tabla estado_servicio
       const result = await client.query(
