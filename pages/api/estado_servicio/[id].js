@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const queryText = 'SELECT * FROM estado_servicio WHERE codigo_servicio = $1 ORDER BY fecha_hora;';
+      const queryText = 'SELECT * FROM estado_servicio es JOIN mensajero m ON es.mensajero = m.id WHERE codigo_servicio = $1 ORDER BY fecha_hora;';
       const values = [id];
       const result = await client.query(queryText, values);
 

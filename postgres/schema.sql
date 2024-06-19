@@ -76,7 +76,9 @@ CREATE TABLE estado_servicio (
     codigo_servicio INT,
     estado VARCHAR(50),
     fecha_hora TIMESTAMP,
-    FOREIGN KEY (codigo_servicio) REFERENCES servicio(codigo_servicio)
+    mensajero INT,
+    FOREIGN KEY (codigo_servicio) REFERENCES servicio(codigo_servicio),
+    FOREIGN KEY (mensajero) REFERENCES mensajero(id)
 );
 
 CREATE TABLE foto_estado (

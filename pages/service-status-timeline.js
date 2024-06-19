@@ -49,6 +49,7 @@ export default function ServiceStatusTimeline() {
               <li key={status.id} className="mb-4 p-4 border border-gray-300 rounded-lg">
                 <p><strong>Estado:</strong> {status.estado}</p>
                 <p><strong>Fecha y Hora:</strong> {new Date(status.fecha_hora).toLocaleString()}</p>
+                <p><strong>Mensajero:</strong> {status.nombre}</p>
               </li>
             ))}
           </ul>
